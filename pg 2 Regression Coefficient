@@ -1,19 +1,33 @@
-# Load the data
-data(mtcars)
+# Aim: Write a program to calculate regression coefficients
 
-# Perform simple linear regression
-model <- lm(mpg ~ wt, data = mtcars)
+# Given data
+x <- c(10, 15, 12, 17, 13, 16, 24, 14, 22, 20)
+y <- c(30, 42, 45, 46, 33, 34, 40, 35, 39, 38)
 
-# Summarize the model
-summary(model)
+# Function to calculate regression coefficients
+reg_coef <- function(x, y) {
+  
+  # Calculate means of x and y
+  x_mean <- mean(x)
+  y_mean <- mean(y)
+  
+  # Calculate deviations from the means
+  x_dev <- x - x_mean
+  y_dev <- y - y_mean
+  
+  # Calculate slope (beta1)
+  beta1 <- sum(x_dev * y_dev) / sum(x_dev^2)
+  
+  # Calculate intercept (beta0)
+  beta0 <- y_mean - beta1 * x_mean
+  
+  # Return coefficients
+  return(c(beta0, beta1))
+}
 
-# Extract the regression coefficients
-coef(model)
+# Calculate regression coefficients
+coefs <- reg_coef(x, y)
 
-# Predict mpg for a car with wt = 3
-new_data <- data.frame(wt = 3)
-predict(model, new_data)
-
-# Plot the data and regression line
-plot(mtcars$wt, mtcars$mpg)
-abline(model)
+# Print results
+print(paste("Intercept (beta0):", round(coefs[1], 4)))
+print(paste("Slope (beta1):", round(coefs[2], 4)))
