@@ -1,0 +1,44 @@
+## a) Discrete Distribution: Binomial Distribution
+
+# 1. Set parameters
+n <- 10  # Number of trials
+p <- 0.5 # Probability of success
+
+# 2. Define the domain (x-values)
+x <- 0:n # Possible number of successes (0, 1, ..., 10)
+
+# 3. Calculate PMF (Probability Mass Function)
+# dbinom gives the probability P(X = x)
+pmf <- dbinom(x, size = n, prob = p)
+print("PMF values (Probability P(X = x)):")
+print(pmf)
+
+# 4. Calculate CDF (Cumulative Distribution Function)
+# pbinom gives the cumulative probability P(X <= x)
+cdf <- pbinom(x, size = n, prob = p)
+print("CDF values (Cumulative Probability P(X <= x)):")
+print(cdf)
+
+# 5. Plot the PMF (Bar Chart)
+# type="h" creates vertical lines (like a bar chart for discrete data)
+plot(x, pmf, 
+     type = "h", # Histogram-like lines
+     lwd = 2,    # Line width
+     col = "blue", # Line color
+     main = "PMF of Binomial Distribution (n=10, p=0.5)",
+     xlab = "Number of successes (x)",
+     ylab = "Probability (P(X=x))"
+)
+grid()
+
+# 6. Plot the CDF (Step Function)
+# type="s" creates a step function plot, appropriate for discrete CDFs
+plot(x, cdf, 
+     type = "s", # Step function plot
+     lwd = 2,    # Line width
+     col = "red", # Line color
+     main = "CDF of Binomial Distribution (n=10, p=0.5)",
+     xlab = "Number of successes (x)",
+     ylab = "Cumulative Probability (P(X<=x))"
+)
+grid()
