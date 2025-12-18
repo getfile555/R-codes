@@ -1,22 +1,58 @@
-# One-sample t-test
-# Let's test the hypothesis that the mean of a population is equal to 5
-set.seed(123)
-sample_data <- rnorm(100, mean = 5.2, sd = 1)
-t_test_result <- t.test(sample_data, mu = 5)
-print(t_test_result)
+# Program: To find the z-test
 
-# Two-sample t-test (independent samples)
-# Let's test the hypothesis that the means of two populations are equal
-set.seed(123)
-sample1 <- rnorm(100, mean = 5, sd = 1)
-sample2 <- rnorm(100, mean = 5.5, sd = 1)
-t_test_result <- t.test(sample1, sample2)
-print(t_test_result)
+z_test <- function(x, mu, sigma, alternative = "two.sided") {
+  # x: sample data
+  # mu: hypothesized population mean
+  # sigma: population standard deviation (known)
+  # alternative: type of test ("two.sided", "less", "greater")
 
-# Paired t-test (dependent samples)
-# Let's test the hypothesis that the mean difference between paired observations is zero
-set.seed(123)
-before <- rnorm(100, mean = 5, sd = 1)
-after <- before + rnorm(100, mean = 0.5, sd = 1)
-t_test_result <- t.test(before, after, paired = TRUE)
-print(t_test_result)
+  # Sample size
+  n <- length(x)
+
+  # Z statistic
+  z_stat <- (mean(x) - mu) / (sigma / sqrt(n))
+
+  # P-value calculation
+  if (alternative == "two.sided") {
+    P_value <- 2 * (1 - pnorm(abs(z_stat)))
+  } else if (alternative == "less") {
+    P_value <- pnorm(z_stat)
+  } else if (alternative == "greater") {
+    P_value <- 1 - pnorm(z_stat)
+  } else {
+    stop("invalid alternative hypothesis. use 'two.sided', 'less', or 'greater.'")
+  }
+
+  # Result
+  result <- list(
+    Z_statistic = z_stat,
+    P_value = P_value
+  )
+
+  # Conclusion
+  if (P_value < 0.05) {
+    cat("\nConclusion: Reject the null hypothesis (H0).\n")
+  } else {
+    cat("\nConclusion: Fail to reject the null hypothesis (H0).\n")
+  }
+
+  return(result)
+}
+
+# Example usage of the z-test function
+# Hypothesis: Test if the mean weight is 70 (mu=70).
+# Known population standard deviation: 10 (sigma=10).
+
+# Sample data
+sample_data <- c(72, 69, 74, 70, 71, 69, 63, 67, 75, 70)
+
+# Perform Z-test
+result <- z_test(
+  x = sample_data,
+  mu = 70,
+  sigma = 10,
+  alternative = "two.sided"
+)
+
+# Print results
+print(result)
