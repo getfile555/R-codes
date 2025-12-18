@@ -1,40 +1,29 @@
-# One-sample Z-test
-# Let's test the hypothesis that the mean of a population is equal to 5
-set.seed(123)
-sample_data <- rnorm(100, mean = 5.2, sd = 1)
-mu0 <- 5  # Null hypothesis mean
-sigma <- 1  # Known population standard deviation
-n <- length(sample_data)
-x_bar <- mean(sample_data)
+# Aim: To find the Z-test
+z_test <- function(x, mu, sigma, alternative = "two.sided") {
 
-# Calculate the Z-score
-z_score <- (x_bar - mu0) / (sigma / sqrt(n))
+  # sample size
+  n <- length(x)
 
-# Calculate the p-value
-p_value <- 2 * pnorm(abs(z_score), mean = 0, sd = 1, lower.tail = FALSE)
+  # z statistic
+  z_stat <- (mean(x) - mu) / (sigma / sqrt(n))
 
-# Print the results
-print(paste("Z-score:", z_score))
-print(paste("p-value:", p_value))
+  # P value calculation
+  if (alternative == "two.sided") {
+    # Two-sided test: P-value = 2 * P(Z > |z_stat|)
+    P_value <- 2 * (1 - pnorm(abs(z_stat)))
+  } else if (alternative == "less") {
+    # Left-tailed test: P-value = P(Z < z_stat)
+    P_value <- pnorm(z_stat)
+  } else if (alternative == "greater") {
+    # Right-tailed test: P-value = P(Z > z_stat)
+    P_value <- 1 - pnorm(z_stat)
+  } else {
+    stop("Invalid alternative hypothesis. use 'two.sided', 'less', or 'greater.'")
+  }
 
-# Two-sample Z-test
-# Let's test the hypothesis that the means of two populations are equal
-set.seed(123)
-sample1 <- rnorm(100, mean = 5, sd = 1)
-sample2 <- rnorm(100, mean = 5.5, sd = 1)
-x_bar1 <- mean(sample1)
-x_bar2 <- mean(sample2)
-n1 <- length(sample1)
-n2 <- length(sample2)
-sigma1 <- 1  # Known population standard deviation for sample 1
-sigma2 <- 1  # Known population standard deviation for sample 2
+  list(
+    Z_statistic = z_stat,
+    P_value = P_value
+  )
+}
 
-# Calculate the Z-score
-z_score <- (x_bar1 - x_bar2) / sqrt((sigma1^2 / n1) + (sigma2^2 / n2))
-
-# Calculate the p-value
-p_value <- 2 * pnorm(abs(z_score), mean = 0, sd = 1, lower.tail = FALSE)
-
-# Print the results
-print(paste("Z-score:", z_score))
-print(paste("p-value:", p_value))
