@@ -1,0 +1,14 @@
+observed<-c(50,30,20)
+expected<-c(40,40,20)
+chi_square<-sum((observed-expected)^2/expected)
+df<-length(observed)-1
+p_value<-pchisq(chi_square,df,lower.tail=FALSE)
+alpha<-0.05
+cat("chi square value ",chi_square,"\n")
+cat("deggres of freedom ",df,"\n")
+cat("p value is ",p_value,"\n")
+if(p_value<alpha){
+    cat("canclusion:reject the null hypothesis (observed does not mach expected)")
+}else{
+    cat("canclusion:fail to reject the null hypothesis (observed match expected)")
+}
