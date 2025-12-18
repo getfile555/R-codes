@@ -1,0 +1,45 @@
+## b) Continuous Distribution: Normal Distribution
+
+# 1. Set parameters
+mu <- 0     # Mean
+sigma <- 1  # Standard Deviation
+
+# 2. Define the domain (x-values)
+# Create a sequence of values from -4 to 4 with a step of 0.1
+x_continuous <- seq(from = -4, to = 4, by = 0.1)
+
+# 3. Calculate PDF (Probability Density Function)
+# dnorm gives the density f(x)
+pdf_continuous <- dnorm(x_continuous, mean = mu, sd = sigma)
+print("PDF values (Density f(x)):")
+print(pdf_continuous[1:5]) # Print first 5 values for brevity
+
+# 4. Calculate CDF (Cumulative Distribution Function)
+# pnorm gives the cumulative probability P(X <= x)
+cdf_continuous <- pnorm(x_continuous, mean = mu, sd = sigma)
+print("CDF values (Cumulative Probability P(X <= x)):")
+print(cdf_continuous[1:5]) # Print first 5 values for brevity
+
+# 5. Plot the PDF (Density Curve)
+# type="l" creates a line plot, appropriate for continuous data
+plot(x_continuous, pdf_continuous, 
+     type = "l", # Line plot
+     lwd = 2,    # Line width
+     col = "blue", # Line color
+     main = "PDF of Normal Distribution (mu=0, sigma=1)",
+     xlab = "x",
+     ylab = "Density (f(x))"
+)
+grid()
+
+# 6. Plot the CDF (S-shaped Curve)
+# type="l" creates a line plot
+plot(x_continuous, cdf_continuous, 
+     type = "l", # Line plot
+     lwd = 2,    # Line width
+     col = "red", # Line color
+     main = "CDF of Normal Distribution (mu=0, sigma=1)",
+     xlab = "x",
+     ylab = "Cumulative Probability (P(X<=x))"
+)
+grid()
