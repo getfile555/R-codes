@@ -1,16 +1,46 @@
-# F-test for equality of variances
-# Let's test the hypothesis that the variances of two populations are equal
-set.seed(123)
-sample1 <- rnorm(100, mean = 5, sd = 1)
-sample2 <- rnorm(100, mean = 5.5, sd = 1.2)
-var_test_result <- var.test(sample1, sample2)
-print(var_test_result)
+# Aim: Write a R-program to find F-test
 
-# F-test for regression model
-# Let's test the hypothesis that a regression model is significant
-set.seed(123)
-x <- rnorm(100, mean = 0, sd = 1)
-y <- 2 * x + rnorm(100, mean = 0, sd = 1)
-model <- lm(y ~ x)
-anova_result <- anova(model)
-print(anova_result)
+# Program
+
+# Sample data
+Sample_1 <- c(12, 15, 14, 10, 13, 14, 15)
+Sample_2 <- c(9, 7, 9, 11, 10, 7, 9, 8)
+
+# Calculate variances
+var1 <- var(Sample_1)
+var2 <- var(Sample_2)
+
+# F-statistic (always greater variance / smaller variance)
+# The code assumes var1 is the larger variance based on the order of df calculation later, 
+# but for a standard F-test for equal variances, the larger variance is usually in the numerator.
+F_stat <- var1 / var2
+
+# Degrees of Freedom
+# df1 is for the numerator's variance (var1), df2 is for the denominator's variance (var2)
+df1 <- length(Sample_1) - 1
+df2 <- length(Sample_2) - 1
+
+# P-value calculation (two-tailed)
+# Since the F-stat is calculated as var1/var2, the P-value needs to account for 
+# the probability of getting an F-ratio this extreme in either direction.
+# The min() function approach is used here, which is common when the F-stat is 
+# defined as the ratio of the larger sample variance to the smaller one.
+P_value <- 2 * min(
+  pf(F_stat, df1, df2, lower.tail = TRUE), # Lower tail probability
+  pf(F_stat, df1, df2, lower.tail = FALSE) # Upper tail probability
+)
+
+# Print results
+cat("F Statistic:", F_stat, "\n")
+cat("Degrees of freedom:", df1, "and", df2, "\n")
+cat("P-value :", P_value, "\n")
+
+# Set significance level (alpha)
+alpha <- 0.05
+
+# Conclusion
+if (P_value < alpha) {
+  cat("\nConclusion: Reject the null hypothesis (variances are not equal)\n")
+} else {
+  cat("\nConclusion: Fail to reject the null hypothesis (variances are equal).\n")
+}
