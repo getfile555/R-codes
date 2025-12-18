@@ -1,58 +1,35 @@
-# Program: To find the z-test
+# Enter sample data
+x <- c(10, 20, 30, 40, 50)
 
-z_test <- function(x, mu, sigma, alternative = "two.sided") {
-  # x: sample data
-  # mu: hypothesized population mean
-  # sigma: population standard deviation (known)
-  # alternative: type of test ("two.sided", "less", "greater")
+# Population mean
+mu <- 25
 
-  # Sample size
-  n <- length(x)
+# Sample size
+n <- length(x)
 
-  # Z statistic
-  z_stat <- (mean(x) - mu) / (sigma / sqrt(n))
+# Sample mean
+x_bar <- mean(x)
 
-  # P-value calculation
-  if (alternative == "two.sided") {
-    P_value <- 2 * (1 - pnorm(abs(z_stat)))
-  } else if (alternative == "less") {
-    P_value <- pnorm(z_stat)
-  } else if (alternative == "greater") {
-    P_value <- 1 - pnorm(z_stat)
-  } else {
-    stop("invalid alternative hypothesis. use 'two.sided', 'less', or 'greater.'")
-  }
+# Sample standard deviation
+s <- sd(x)
 
-  # Result
-  result <- list(
-    Z_statistic = z_stat,
-    P_value = P_value
-  )
+# t statistic
+t_value <- (x_bar - mu) / (s / sqrt(n))
 
-  # Conclusion
-  if (P_value < 0.05) {
-    cat("\nConclusion: Reject the null hypothesis (H0).\n")
-  } else {
-    cat("\nConclusion: Fail to reject the null hypothesis (H0).\n")
-  }
+# Degrees of freedom
+df <- n - 1
 
-  return(result)
+# Critical t value (5% level)
+t_critical <- qt(0.975, df)
+
+# Output
+cat("Sample Mean:", x_bar, "\n")
+cat("t value:", t_value, "\n")
+cat("t critical value:", t_critical, "\n")
+
+# Decision
+if (abs(t_value) > t_critical) {
+  cat("Result is Significant : Reject Null Hypothesis")
+} else {
+  cat("Result is Not Significant : Fail to Reject Null Hypothesis")
 }
-
-# Example usage of the z-test function
-# Hypothesis: Test if the mean weight is 70 (mu=70).
-# Known population standard deviation: 10 (sigma=10).
-
-# Sample data
-sample_data <- c(72, 69, 74, 70, 71, 69, 63, 67, 75, 70)
-
-# Perform Z-test
-result <- z_test(
-  x = sample_data,
-  mu = 70,
-  sigma = 10,
-  alternative = "two.sided"
-)
-
-# Print results
-print(result)
