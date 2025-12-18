@@ -1,18 +1,18 @@
-# Load the data
-data(mtcars)
-
-# Calculate the correlation coefficient
-cor(mtcars$mpg, mtcars$wt)
-
-# Calculate the correlation matrix
-cor(mtcars[, c("mpg", "wt", "hp")])
-
-# Visualize the correlation matrix
-library(corrplot)
-corrplot(cor(mtcars[, c("mpg", "wt", "hp")]))
-
-# Calculate Pearson's correlation coefficient
-cor(mtcars$mpg, mtcars$wt, method = "pearson")
-
-# Calculate Spearman's rank correlation coefficient
-cor(mtcars$mpg, mtcars$wt, method = "spearman")
+x<-c(10,15,17,19,20,27,18)
+y<-c(95,97,89,85,93,90,88)
+cof_cor<-function(x,y){
+    x_mean<-mean(x)
+    y_mean<-mean(y)
+    x_dev<-x-x_mean
+    y_dev<-y-y_mean
+    cov_xy<-sum(x_dev*y_dev)/(length(x)-1)
+    var_x<-sum(x_dev^2)/(length(x)-1)
+    print(cov_xy)
+    print(var_x)
+    var_y<-sum(y_dev^2)/(length(y)-1)
+    print(var_y)
+    r<-cov_xy/sqrt(var_x*var_y)
+    print(r)
+    return(r)
+}
+cof_cor(x,y)
